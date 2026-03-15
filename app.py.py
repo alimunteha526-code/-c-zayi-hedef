@@ -22,11 +22,11 @@ if st.button("Hesaplamayı Başlat"):
         # 1. Aşama: Toplam cam adetine ulaş (%5,80 üzerinden)
         toplam_cam_hedefi = girdi_1 / 0.058
         
-        # 2. Aşama: Toplam hedeften kesilen camı çıkar ve 2'ye böl (Nihai Sonuç)
-        nihai_sonuc = (toplam_cam_hedefi - girdi_2) / 2
+        # 2. Aşama: Toplam föy adeti (Farkın ikiye bölünmüş hali)
+        toplam_foy_adeti = (toplam_cam_hedefi - girdi_2) / 2
         
         # 3. Aşama: Mağazada Hatasız Kesilmesi Gereken Föy Adeti (17'ye bölüm)
-        foy_adeti = nihai_sonuc / 17
+        magaza_foy_hedefi = toplam_foy_adeti / 17
         
         st.divider()
         
@@ -37,13 +37,13 @@ if st.button("Hesaplamayı Başlat"):
             st.metric("Kesilmesi Gereken Toplam Cam Adeti", f"{toplam_cam_hedefi:,.2f}")
             
         with res_col2:
-            st.metric("Nihai Sonuç (Bölüm Öncesi)", f"{nihai_sonuc:,.2f}")
+            st.metric("Kesilmesi Gereken Toplam Föy Adeti", f"{toplam_foy_adeti:,.2f}")
         
         st.write("##") 
         
-        # Mağazada Hatasız Kesilmesi Gereken Föy Adeti
+        # Nihai Hedef
         st.subheader("📋 Mağazada Hatasız Kesilmesi Gereken Föy Adeti")
-        st.success(f"Gerekli Föy Adeti: **{foy_adeti:,.2f}**")
+        st.success(f"Gerekli Föy Adeti (Birim Başına): **{magaza_foy_hedefi:,.2f}**")
         
     else:
         st.error("Lütfen 'Zayi Adeti' kısmına geçerli bir sayı giriniz.")
