@@ -5,7 +5,7 @@ st.set_page_config(page_title="Zayi Hedefi Hesap Tablosu", layout="centered", pa
 
 # Başlık
 st.title("🎯 Zayi Hedefi Hesap Tablosu")
-st.write("Hesaplama yapmak için gerekli verileri giriniz.")
+st.write("Operasyonel verileri girerek hedeflerinizi hesaplayabilirsiniz.")
 
 # Giriş Alanları
 col1, col2 = st.columns(2)
@@ -19,11 +19,11 @@ with col2:
 # Hesaplama Butonu
 if st.button("Hesaplamayı Başlat"):
     if girdi_1 > 0:
-        # 1. Aşama: Ana rakamı hesapla (%5,80 üzerinden)
-        ana_rakam = girdi_1 / 0.058
+        # 1. Aşama: Toplam cam adetine ulaş (%5,80 üzerinden)
+        toplam_cam_hedefi = girdi_1 / 0.058
         
-        # 2. Aşama: Ana rakamdan kesilen cam adetini çıkar ve 2'ye böl (Nihai Sonuç)
-        nihai_sonuc = (ana_rakam - girdi_2) / 2
+        # 2. Aşama: Toplam hedeften kesilen camı çıkar ve 2'ye böl (Nihai Sonuç)
+        nihai_sonuc = (toplam_cam_hedefi - girdi_2) / 2
         
         # 3. Aşama: Mağazada Hatasız Kesilmesi Gereken Föy Adeti (17'ye bölüm)
         foy_adeti = nihai_sonuc / 17
@@ -34,7 +34,7 @@ if st.button("Hesaplamayı Başlat"):
         res_col1, res_col2 = st.columns(2)
         
         with res_col1:
-            st.metric("Hesaplanan Ana Rakam", f"{ana_rakam:,.2f}")
+            st.metric("Kesilmesi Gereken Toplam Cam Adeti", f"{toplam_cam_hedefi:,.2f}")
             
         with res_col2:
             st.metric("Nihai Sonuç (Bölüm Öncesi)", f"{nihai_sonuc:,.2f}")
@@ -50,4 +50,4 @@ if st.button("Hesaplamayı Başlat"):
 
 # Alt bilgi
 st.markdown("---")
-st.caption("Veriler operasyonel zayi hedefleri doğrultusunda hesaplanmaktadır.")
+st.caption("Bu araç operasyonel verimlilik ve zayi yönetimi için optimize edilmiştir.")
