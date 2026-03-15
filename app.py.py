@@ -11,11 +11,10 @@ st.write("Operasyonel verileri girerek hedeflerinizi hesaplayabilirsiniz.")
 col1, col2 = st.columns(2)
 
 with col1:
-    # Sayı girişlerini tam sayı (step=1) olarak ayarladık
-    girdi_1 = st.number_input("Zayi Adeti:", min_value=0, step=1, key="zayi")
+    girdi_1 = st.number_input("Zayi Adeti:", min_value=0.0, step=1.0, key="zayi")
 
 with col2:
-    girdi_2 = st.number_input("Kesilen Cam Adeti:", min_value=0, step=1, key="cam")
+    girdi_2 = st.number_input("Kesilen Cam Adeti:", min_value=0.0, step=1.0, key="cam")
 
 # Hesaplama Butonu
 if st.button("Hesaplamayı Başlat"):
@@ -31,11 +30,11 @@ if st.button("Hesaplamayı Başlat"):
         
         st.divider()
         
-        # Sonuç Kartları - Sıfırları kaldırmak için int() veya :.0f kullanıyoruz
+        # Sonuç Kartları
         res_col1, res_col2 = st.columns(2)
         
         with res_col1:
-            # Yuvarlayarak tam sayı gösteriyoruz
+            # {:g} formatı gereksiz sıfırları otomatik siler (Örn: 421.00 -> 421)
             st.metric("Kesilmesi Gereken Toplam Cam Adeti", f"{toplam_cam_hedefi:,.0f}")
             
         with res_col2:
@@ -43,14 +42,13 @@ if st.button("Hesaplamayı Başlat"):
         
         st.write("##") 
         
-        # Nihai Hedef
+        # Nihai Hedef - Burada da tam sayıya yuvarlayıp sıfırları atıyoruz
         st.subheader("📋 Mağazada Hatasız Kesilmesi Gereken Föy Adeti")
-        # Sonucu en yakın tam sayıya yuvarladık
-        st.success(f"Gerekli Föy Adeti (Birim Başına): **{magaza_foy_hedefi:,.0f}**")
+        st.success(f"Gerekli Föy Adeti (Birim Başına): {int(round(magaza_foy_hedefi))}")
         
     else:
         st.error("Lütfen 'Zayi Adeti' kısmına geçerli bir sayı giriniz.")
 
 # Alt bilgi
 st.markdown("---")
-st.caption("Bu araç operasyonel verimlilik ve zayi yönetimi için optimize edilmiştir.")
+st.caption("Veriler operasyonel zayi hedefleri doğrultusunda hesaplanmaktadır.")
