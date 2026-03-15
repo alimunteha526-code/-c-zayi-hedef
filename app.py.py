@@ -11,22 +11,24 @@ st.write("Operasyonel verileri girerek hedeflerinizi hesaplayabilirsiniz.")
 col1, col2 = st.columns(2)
 
 with col1:
-    girdi_1 = st.number_input("Zayi Adeti:", min_value=0.0, step=1.0, key="zayi")
+    # Sayı girişlerini doğrudan tam sayı olarak alıyoruz
+    girdi_1 = st.number_input("Zayi Adeti:", min_value=0, step=1, key="zayi")
 
 with col2:
-    girdi_2 = st.number_input("Kesilen Cam Adeti:", min_value=0.0, step=1.0, key="cam")
+    girdi_2 = st.number_input("Kesilen Cam Adeti:", min_value=0, step=1, key="cam")
 
 # Hesaplama Butonu
 if st.button("Hesaplamayı Başlat"):
     if girdi_1 > 0:
         # 1. Aşama: Toplam cam adetine ulaş (%5,80 üzerinden)
-        toplam_cam_hedefi = girdi_1 / 0.058
+        # int() kullanarak ondalık kısmı tamamen atıyoruz
+        toplam_cam_hedefi = int(girdi_1 / 0.058)
         
         # 2. Aşama: Toplam föy adeti (Farkın ikiye bölünmüş hali)
-        toplam_foy_adeti = (toplam_cam_hedefi - girdi_2) / 2
+        toplam_foy_adeti = int((toplam_cam_hedefi - girdi_2) / 2)
         
         # 3. Aşama: Mağazada Hatasız Kesilmesi Gereken Föy Adeti (17'ye bölüm)
-        magaza_foy_hedefi = toplam_foy_adeti / 17
+        magaza_foy_hedefi = int(toplam_foy_adeti / 17)
         
         st.divider()
         
@@ -34,17 +36,18 @@ if st.button("Hesaplamayı Başlat"):
         res_col1, res_col2 = st.columns(2)
         
         with res_col1:
-            # {:g} formatı gereksiz sıfırları otomatik siler (Örn: 421.00 -> 421)
-            st.metric("Kesilmesi Gereken Toplam Cam Adeti", f"{toplam_cam_hedefi:,.0f}")
+            # Artık sadece saf tam sayı gönderiyoruz
+            st.metric("Kesilmesi Gereken Toplam Cam Adeti", toplam_cam_hedefi)
             
         with res_col2:
-            st.metric("Kesilmesi Gereken Toplam Föy Adeti", f"{toplam_foy_adeti:,.0f}")
+            st.metric("Kesilmesi Gereken Toplam Föy Adeti", toplam_foy_adeti)
         
         st.write("##") 
         
-        # Nihai Hedef - Burada da tam sayıya yuvarlayıp sıfırları atıyoruz
+        # Nihai Hedef
         st.subheader("📋 Mağazada Hatasız Kesilmesi Gereken Föy Adeti")
-        st.success(f"Gerekli Föy Adeti (Birim Başına): {int(round(magaza_foy_hedefi))}")
+        # st.success içinde de sadece tam sayı görünmesini sağlıyoruz
+        st.success(f"Gerekli Föy Adeti (Birim Başına): {magaza_foy_hedefi}")
         
     else:
         st.error("Lütfen 'Zayi Adeti' kısmına geçerli bir sayı giriniz.")
